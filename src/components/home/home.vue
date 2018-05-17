@@ -3,7 +3,9 @@
     <el-header class="header">
       <el-row>
         <el-col :span="16">后台管理系统</el-col>
-        <el-col :span="8">退出</el-col>
+        <el-col :span="8">
+          <a @click.prevent="handleLogout" href="#">退出</a>
+        </el-col>
       </el-row>
     </el-header>
     <el-container class="container">
@@ -74,23 +76,29 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    handleLogout () {
+      // 删除 token
+      window.localStorage.removeItem('token')
+      // 跳转到 login，重新登录
+      this.$router.push('/login')
     }
   }
 }
 </script>
 <style>
-/*顶部的样式*/
-.el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
+  /*顶部的样式*/
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
-}
-.header {
-  line-height: 60px;
-  text-align: center;
-  background-color: #b3c1cd;
-}
+  .header {
+    line-height: 60px;
+    text-align: center;
+    background-color: #b3c1cd;
+  }
   .header {
     background-color: #b3c1cd;
   }
