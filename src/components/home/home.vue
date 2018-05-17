@@ -79,9 +79,26 @@ export default {
     },
     handleLogout () {
       // 删除 token
-      window.localStorage.removeItem('token')
-      // 跳转到 login，重新登录
-      this.$router.push('/login')
+      // window.localStorage.removeItem('token')
+      this.$confirm('确认退出吗？', '退出提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // 用户点击 确定 执行这里
+        // 1. 删除本地存储中的 token，也就是清除登陆状态
+        window.localStorage.removeItem('token')
+        // 2. 跳转到 /login
+        this.$router.push('/login')
+        this.$message({
+          type: 'success',
+          message: '退出成功!'
+        })
+      }).catch(() => { // 用户点击 取消 执行这里
+        this.$message({
+          type: 'info',
+          message: '已取消退出'
+        })
+      })
     }
   }
 }
