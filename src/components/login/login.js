@@ -7,31 +7,38 @@ export default {
         username: '',
         password: ''
       },
-      /*rules: {
+      rules: {
         username: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
           password: [
-            { validator: validatePass, trigger: 'blur' }
+            { required: true, message: '请输入密码', trigger: 'blur' }
           ]
-      }*/
+      }
     }
   },
   methods: {
     handleLogin () {
-      axios.post('http://localhost:8888/api/private/v1/login', this.loginForm)
+      this.$refs['loginForm'].validate((valid) => {
+        if (!valid) { // 如果是无效是校验
+          return
+        }
+        axios.post('http://localhost:8888/api/private/v1/login', this.loginForm)
         .then(res => {
           console.log(res.data)
           const {data, meta} = res.data
           const {msg, status} = meta
           if (status === 200) {
-            // window.alert("登录成功")
+            // 登录成功 -- 将凭证放到本地存储（然后会在路由守卫那里使用）
+            window.localStorage.setItem('token', data.token)
+            // console.log(data.token) // 校验成功会自动在 data 里面加上 token
             this.$router.push('/')
           } else if (status === 400) {
-            window.alert(msg)
+            // window.alert(msg)
+            this.$message.error('密码错误')
           }
         })
+      });
     }
   }
 }

@@ -25,6 +25,8 @@ router.beforeEach((to, from, next) => {
     // 如果没有 token，则让其跳转到 login
     if (!token) {
       next('/login') // next() 方法中是 字符串
+    } else {
+      next()
     }
   } else { // 如果是 login，则直接调用 next()
     next()
