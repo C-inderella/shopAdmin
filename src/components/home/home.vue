@@ -1,6 +1,11 @@
 <template>
   <el-container class="container">
-    <el-header class="header">Header</el-header>
+    <el-header class="header">
+      <el-row>
+        <el-col :span="16">后台管理系统</el-col>
+        <el-col :span="8">退出</el-col>
+      </el-row>
+    </el-header>
     <el-container class="container">
       <el-aside class="aside" width="200px">
         <el-menu
@@ -74,6 +79,18 @@ export default {
 }
 </script>
 <style>
+/*顶部的样式*/
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.header {
+  line-height: 60px;
+  text-align: center;
+  background-color: #b3c1cd;
+}
   .header {
     background-color: #b3c1cd;
   }
