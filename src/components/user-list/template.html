@@ -1,4 +1,12 @@
-<el-table
+<div>
+  <el-row>
+    <el-col :span="10">
+      <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select">
+        <el-button slot="append" icon="el-icon-search" @click.13="handleSearch"></el-button>
+      </el-input>
+    </el-col>
+  </el-row>
+  <el-table
   :data="tableData"
   style="width: 100%">
   <el-table-column
@@ -15,4 +23,17 @@
     prop="mobile"
     label="电话">
   </el-table-column>
-</el-table>
+  </el-table>
+  <!--
+    分页组件 默认每页 10 条数据
+    page-size: 每页显示几条--文档中有参数
+    total：字符串中是动态绑定的 total 值
+  -->
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :page-size="2"
+    :total="total"
+    @current-change="handleCurrentChange">
+  </el-pagination>
+</div>
