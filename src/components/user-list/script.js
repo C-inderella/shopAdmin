@@ -9,7 +9,14 @@ export default {
     return {
       tableData: [],
       total: 0,
-      searchText: ''
+      searchText: '',
+      dialogFormVisible: false,
+      addUserForm: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
+      }
     }
   },
   methods: {
@@ -42,7 +49,6 @@ export default {
     },
     handleSearch () {
       this.loadUsersByPage(1)
-
     }
   }
 }

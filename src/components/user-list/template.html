@@ -1,6 +1,7 @@
 <div>
+  <!-- 面包屑 -->
   <el-row>
-    <el-col>
+    <el-col :span="24">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
@@ -8,31 +9,37 @@
       </el-breadcrumb>
     </el-col>
   </el-row>
-  <el-row>
+  <!-- 搜索框 -->
+  <el-row  :gutter="20">
     <el-col :span="10">
       <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select">
         <el-button slot="append" icon="el-icon-search" @click.13="handleSearch"></el-button>
       </el-input>
     </el-col>
+    <el-col :span="2">
+      <el-button type="primary" plain @click="dialogFormVisible = true">添加用户</el-button>
+    </el-col>
   </el-row>
+  <!-- 用户列表 -->
   <el-table
-  :data="tableData"
-  style="width: 100%">
-  <el-table-column
-    prop="username"
-    label="用户名"
-    width="180">
-  </el-table-column>
-  <el-table-column
-    prop="email"
-    label="邮箱"
-    width="180">
-  </el-table-column>
-  <el-table-column
-    prop="mobile"
-    label="电话">
-  </el-table-column>
+    :data="tableData"
+    style="width: 100%">
+    <el-table-column
+      prop="username"
+      label="用户名"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="email"
+      label="邮箱"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="mobile"
+      label="电话">
+    </el-table-column>
   </el-table>
+  <!-- 分页 -->
   <!--
     分页组件 默认每页 10 条数据
     page-size: 每页显示几条--文档中有参数
@@ -45,4 +52,51 @@
     :total="total"
     @current-change="handleCurrentChange">
   </el-pagination>
+  <!-- 添加用户对话框 -->
+  <!-- <el-dialog title="添加用户" :visible.sync="dialogFormVisible = true">
+    <el-form :model="addUser">
+      <el-form-item label="用户名" label-width="80px">
+        <el-input v-model="addUser.username" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" label-width="80px">
+        <el-input v-model="addUser.password" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" label-width="80px">
+        <el-input v-model="addUser.email" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="电话" label-width="80px">
+        <el-input v-model="addUser.mobile" auto-complete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    </div>
+  </el-dialog> -->
+  <!-- 添加用户对话框 -->
+  <!--
+    el-dialog 是对话框组件
+      visible 属性需要绑定一个布尔值，对话框会根据布尔值的真假来决定显示与隐藏
+   -->
+  <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+    <el-form :model="addUserForm" label-position="left" size="small">
+      <el-form-item label="用户名" label-width="80px">
+        <el-input v-model="addUserForm.username" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" label-width="80px">
+        <el-input v-model="addUserForm.password" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" label-width="80px">
+        <el-input v-model="addUserForm.email" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="电话" label-width="80px">
+        <el-input v-model="addUserForm.mobile" auto-complete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    </div>
+  </el-dialog>
+  <!-- 添加用户对话框 -->
 </div>
