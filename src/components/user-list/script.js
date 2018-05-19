@@ -42,6 +42,7 @@ export default {
     },
     handleSearch () {
       this.loadUsersByPage(1)
+
     }
   }
 }
