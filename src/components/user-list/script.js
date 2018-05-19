@@ -16,6 +16,23 @@ export default {
         password: '',
         email: '',
         mobile: ''
+      },
+      // 添加用户列表-校验规则
+      roules: {
+        username: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 3, max: 16, message: '密码为 3 - 16 位长度', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱', trigger: 'blur' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -49,6 +66,32 @@ export default {
     },
     handleSearch () {
       this.loadUsersByPage(1)
+    },
+    handleAddUser () {
+      // 请求用户数据
+      axios({
+        method:"post",
+        url:'http://localhost:8888/api/private/v1/users',
+        data: this.addUserForm,
+        headers: {
+          Authorization: window.localStorage.getItem('token')
+        }
+      }).then(res => {
+        // 如果响应数据的 status === 200； 说明响应成功
+        // 清空列表
+        // 关闭对话框
+        // console.log(res)
+        const {data, meta} = res.data
+        const {status} = meta
+        if (status === 201) {
+          // 响应成功 -- 关闭对话框 -- 清空列表
+          this.$refs['form'].resetFields()
+          // console.log(this.$refs['form'])
+          this.dialogFormVisible = false
+        }
+      }).catch(res => {
+        console.log(res)
+      })
     }
   }
 }
