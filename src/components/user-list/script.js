@@ -8,9 +8,11 @@ export default {
   data () {
     return {
       tableData: [],
+      currentPage: 1,
       total: 0,
       searchText: '',
-      dialogFormVisible: false,
+      adddialogFormVisible: false,
+      scope: {},
       addUserForm: {
         username: '',
         password: '',
@@ -33,6 +35,13 @@ export default {
         mobile: [
           { required: true, message: '请输入手机号', trigger: 'blur' }
         ]
+      },
+      editDialogForm: false,
+      editUserForm: false,
+      editUserForm: {
+        username: '',
+        email: '',
+        mobile: ''
       }
     }
   },
@@ -42,6 +51,7 @@ export default {
       // console.log(page)
       // ----------------
       // 页码改变时 需要请求数据 -- 把请求封装起来
+      this.currentPage = page
       this.loadUsersByPage(page)
     },
     loadUsersByPage (page) {
@@ -92,6 +102,56 @@ export default {
       }).catch(res => {
         console.log(res)
       })
+    },
+    handleChangeState (item) {
+      axios({
+        url: `http://localhost:8888/api/private/v1/users${item.id}/state/${item.mg_state}`,
+        method: 'put',
+        headers: {
+          Authorization: window.localStorage.removeItem('token')
+        }
+      }).then(res => {
+        const {data, meta} = res.data
+        if (meta.status === 200) {
+          this.$message({
+            type: 'success',
+            message: `${item.mg_state ? '启用' : '禁用'}成功`
+          })
+        }
+      })
+    },
+    // 删除用户
+    handleDeleteUser (item) {
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // 用户点击 确定 执行这里
+        axios({
+          url: `http://localhost:8888/api/private/v1/users/${item.id}`,
+          method: 'delete',
+          headers: {
+            Authorization: window.localStorage.getItem('token')
+          }
+        }).then(res => {
+          if (res.data.meta.status === 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            // 更新当前页的列表数据
+            this.loadUsersByPage(this.currentPage)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    handleEditUser () {
+
     }
   }
 }
