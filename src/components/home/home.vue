@@ -24,7 +24,7 @@
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="1-1">用户列表</el-menu-item>
+            <el-menu-item index="1-1" @click="handleLoadUserList">用户列表</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
@@ -101,6 +101,10 @@ export default {
           message: '已取消退出'
         })
       })
+    },
+    handleLoadUserList () {
+      console.log('===========')
+      this.$router.push('/users')
     }
   }
 }
