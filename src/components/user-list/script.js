@@ -150,8 +150,53 @@ export default {
         })
       })
     },
+    // 根据 id 编辑用户信息，需要传参
+    // 展示信息需要 根据 id 查询用户
+    handleShowEdit (item) {
+      axios({
+        url: `http://localhost:8888/api/private/v1/users/${item.id}`,
+        method: 'get',
+        headers: {
+          AuthoriZation: window.localStorage.getItem('token')
+        }
+      }).then(res => {
+        const {data, meta} = res.data
+        if(meta.status === 200) {
+          this.editUserForm = data
+        }
+      })
+      this.editDialogForm = true
+    },
+
+    // 提交更改后的信息
     handleEditUser () {
 
+      const {id, email, mobile} = this.editUserForm
+      axios({
+        url: `http://localhost:8888/api/private/v1/users/${id}`,
+        method: 'put',
+        data: { // 需要提交列表中的 邮箱 电话
+          email,
+          mobile
+        },
+        headers: {
+          Authorization: window.localStorage.getItem('token')
+        }
+      }).then(res => {
+        if (res.data.meta.status === 200) {
+          // 提交成功
+          // 关闭对话框
+          // 重新请求加载数据
+          this.$message({
+            type: 'success',
+            message: '更新成功'
+          })
+          this.editDialogForm = false
+          this.loadUsersByPage(this.currentPage)
+        }
+      }).catch(res => {
+        console.log(res)
+      })
     }
   }
 }
