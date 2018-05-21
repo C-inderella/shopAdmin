@@ -1,3 +1,47 @@
 <div>
-  角色管理页
+  <!-- 面包屑 -->
+  <el-row>
+    <el-col :span="24">
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>权限管理</el-breadcrumb-item>
+        <el-breadcrumb-item>权限列表</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+  </el-row>
+  <!-- 用户列表 -->
+  <el-table
+    :data="tableData"
+    style="width: 100%">
+    <el-table-column
+      prop="authName"
+      label="权限名称"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="path"
+      label="路径"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="level"
+      label="层级">
+      <template slot-scope="scope">
+        <span v-if="scope.row.level === '0'">一级</span>
+        <span v-else-if="scope.row.level === '1'">二级</span>
+        <span v-else>三级</span>
+      </template>
+    </el-table-column>
+  </el-table>
+  <!-- 分页 -->
+  <!--
+    分页组件 默认每页 10 条数据
+    page-size: 每页显示几条--文档中有参数
+    total：字符串中是动态绑定的 total 值
+  -->
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :page-size="3">
+  </el-pagination>
 </div>
