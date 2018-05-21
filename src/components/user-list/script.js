@@ -53,7 +53,7 @@ export default {
       this.loadUsersByPage(page)
     },
     loadUsersByPage (page) {
-      this.$axios.get('http://localhost:8888/api/private/v1/users', {
+      this.$axios.get('/users', {
         headers: {
           Authorization: window.localStorage.getItem('token')
         },
@@ -79,7 +79,7 @@ export default {
       // 请求用户数据
       this.$axios({
         method:"post",
-        url:'http://localhost:8888/api/private/v1/users',
+        url:'/users',
         data: this.addUserForm,
         headers: {
           Authorization: window.localStorage.getItem('token')
@@ -103,14 +103,15 @@ export default {
     },
     handleChangeState (item) {
       this.$axios({
-        url: `http://localhost:8888/api/private/v1/users${item.id}/state/${item.mg_state}`,
+        url: `/users${item.id}/state/${item.mg_state}`,
         method: 'put',
         headers: {
-          Authorization: window.localStorage.removeItem('token')
+          Authorization: window.localStorage.getItem('token')
         }
       }).then(res => {
+        console.log(res)
         const {data, meta} = res.data
-        if (meta.status === 200) {
+        if (res.status === 200) {
           this.$message({
             type: 'success',
             message: `${item.mg_state ? '启用' : '禁用'}成功`
@@ -126,7 +127,7 @@ export default {
         type: 'warning'
       }).then(() => { // 用户点击 确定 执行这里
         this.$axios({
-          url: `http://localhost:8888/api/private/v1/users/${item.id}`,
+          url: `/users/${item.id}`,
           method: 'delete',
           headers: {
             Authorization: window.localStorage.getItem('token')
@@ -152,7 +153,7 @@ export default {
     // 展示信息需要 根据 id 查询用户
     handleShowEdit (item) {
       this.$axios({
-        url: `http://localhost:8888/api/private/v1/users/${item.id}`,
+        url: `/users/${item.id}`,
         method: 'get',
         headers: {
           AuthoriZation: window.localStorage.getItem('token')
@@ -171,7 +172,7 @@ export default {
 
       const {id, email, mobile} = this.editUserForm
       this.$axios({
-        url: `http://localhost:8888/api/private/v1/users/${id}`,
+        url: `/users/${id}`,
         method: 'put',
         data: { // 需要提交列表中的 邮箱 电话
           email,

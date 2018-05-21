@@ -21,7 +21,7 @@ export default {
         if (!valid) { // 如果是无效是校验
           return
         }
-        this.$axios.post('http://localhost:8888/api/private/v1/login', this.loginForm)
+        this.$axios.post('/login', this.loginForm)
         .then(res => {
           console.log(res.data)
           const {data, meta} = res.data
