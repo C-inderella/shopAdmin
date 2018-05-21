@@ -54,10 +54,7 @@ export default {
     },
     loadUsersByPage (page) {
       this.$axios.get('/users', {
-        headers: {
-          Authorization: window.localStorage.getItem('token')
-        },
-        params: { // params 可以用来指定请求的查询字符串
+          params: { // params 可以用来指定请求的查询字符串
           pagenum: page,
           pagesize: 3,
           query: this.searchText
@@ -80,10 +77,7 @@ export default {
       this.$axios({
         method:"post",
         url:'/users',
-        data: this.addUserForm,
-        headers: {
-          Authorization: window.localStorage.getItem('token')
-        }
+        data: this.addUserForm
       }).then(res => {
         // 如果响应数据的 status === 200； 说明响应成功
         // 清空列表
@@ -104,10 +98,7 @@ export default {
     handleChangeState (item) {
       this.$axios({
         url: `/users${item.id}/state/${item.mg_state}`,
-        method: 'put',
-        headers: {
-          Authorization: window.localStorage.getItem('token')
-        }
+        method: 'put'
       }).then(res => {
         console.log(res)
         const {data, meta} = res.data
@@ -128,10 +119,7 @@ export default {
       }).then(() => { // 用户点击 确定 执行这里
         this.$axios({
           url: `/users/${item.id}`,
-          method: 'delete',
-          headers: {
-            Authorization: window.localStorage.getItem('token')
-          }
+          method: 'delete'
         }).then(res => {
           if (res.data.meta.status === 200) {
             this.$message({
@@ -154,10 +142,7 @@ export default {
     handleShowEdit (item) {
       this.$axios({
         url: `/users/${item.id}`,
-        method: 'get',
-        headers: {
-          AuthoriZation: window.localStorage.getItem('token')
-        }
+        method: 'get'
       }).then(res => {
         const {data, meta} = res.data
         if(meta.status === 200) {
@@ -177,9 +162,6 @@ export default {
         data: { // 需要提交列表中的 邮箱 电话
           email,
           mobile
-        },
-        headers: {
-          Authorization: window.localStorage.getItem('token')
         }
       }).then(res => {
         if (res.data.meta.status === 200) {

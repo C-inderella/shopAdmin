@@ -15,6 +15,17 @@ Vue.prototype.$axios = axios
 axios.defaults.baseURL = `http://localhost:8888/api/private/v1/`
 // axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 
+axios.interceptors.request.use(function (config) {
+  // 在请求拦截器中定制请求头，加入 Authorization token 数据
+  config.headers['Authorization'] = window.localStorage.getItem('token')
+  // return config 类似于 next
+  // return config 就是放行的标志
+  return config
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error)
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
