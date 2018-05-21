@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export default {
   created () {
     // 页面加载时 请求 第一页的 数据
@@ -55,7 +53,7 @@ export default {
       this.loadUsersByPage(page)
     },
     loadUsersByPage (page) {
-      axios.get('http://localhost:8888/api/private/v1/users', {
+      this.$axios.get('http://localhost:8888/api/private/v1/users', {
         headers: {
           Authorization: window.localStorage.getItem('token')
         },
@@ -79,7 +77,7 @@ export default {
     },
     handleAddUser () {
       // 请求用户数据
-      axios({
+      this.$axios({
         method:"post",
         url:'http://localhost:8888/api/private/v1/users',
         data: this.addUserForm,
@@ -104,7 +102,7 @@ export default {
       })
     },
     handleChangeState (item) {
-      axios({
+      this.$axios({
         url: `http://localhost:8888/api/private/v1/users${item.id}/state/${item.mg_state}`,
         method: 'put',
         headers: {
@@ -127,7 +125,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => { // 用户点击 确定 执行这里
-        axios({
+        this.$axios({
           url: `http://localhost:8888/api/private/v1/users/${item.id}`,
           method: 'delete',
           headers: {
@@ -153,7 +151,7 @@ export default {
     // 根据 id 编辑用户信息，需要传参
     // 展示信息需要 根据 id 查询用户
     handleShowEdit (item) {
-      axios({
+      this.$axios({
         url: `http://localhost:8888/api/private/v1/users/${item.id}`,
         method: 'get',
         headers: {
@@ -172,7 +170,7 @@ export default {
     handleEditUser () {
 
       const {id, email, mobile} = this.editUserForm
-      axios({
+      this.$axios({
         url: `http://localhost:8888/api/private/v1/users/${id}`,
         method: 'put',
         data: { // 需要提交列表中的 邮箱 电话
